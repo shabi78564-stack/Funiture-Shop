@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MAHDI FUNITURE AND ALLUMUNIUM SHOP</title>
+    <style>
+        /* Hero Section */
+    .hero {
+      position: relative;
+      height: 70vh;
+      overflow: hidden;
+    }
+    .hero-slide {
+      position: absolute; top:0; left:0;
+      width:100%; height:100%;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transition: opacity 1.5s ease-in-out;
+      display: flex; align-items:center; justify-content:center;
+    }
+    .hero-slide.active { opacity: 1; }
+    .hero-content { position: relative; z-index:2; text-align:center; color:#fff; }
+    .hero-categories {
+      display:flex; gap:1rem; justify-content:center; margin:2rem 0;
+    }
+    .hero-category {
+      width:80px; height:80px; border-radius:50%;
+      background-size:cover; background-position:center;
+      border:3px solid rgba(255,255,255,0.8);
+      cursor:pointer; position:relative;
+    }
+    .hero-category::after {
+      content:attr(data-title);
+      position:absolute; bottom:-20px; left:50%; transform:translateX(-50%);
+      background:rgba(0,0,0,0.7); color:#fff; padding:2px 6px; border-radius:4px;
+      font-size:12px; white-space:nowrap; opacity:0; transition:opacity0.3s;
+    }
+    .hero-category:hover::after { opacity:1; }
+
+    .hero-add-to-cart {
+      background:#27ae60; color:#fff; border:none;
+      padding:10px20px; border-radius:25px; font-size:1rem;
+      cursor:pointer; transition:background0.3s,transform0.3s;
+      margin-bottom:1rem;
+    }
+    .hero-add-to-cart:hover {
+      background:#219a52; transform:translateY(-2px);
+    }
+
+    .hero-nav { position:absolute; bottom:20px; left:50%; transform:translateX(-50%); display:flex; gap:10px; z-index:3; }
+    .hero-dot { width:12px; height:12px; border-radius:50%; background:rgba(255,255,255,0.5); cursor:pointer; }
+    .hero-dot.active { background:#fff; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #2c3e50, #bc823a);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #f3f5f6;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23f8f9fa" width="1200" height="600"/><text x="600" y="300" text-anchor="middle" fill="%23666" font-size="24">Furniture Hero Image</text></svg>');
+            background-size: cover;
+            background-position: center;
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            background: #e74c3c;
+            color: rgb(20, 16, 16);
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .cta-button:hover {
+            background: #c0392b;
+        }
+
+        /* Categories Section */
+        .categories {
+            padding: 4rem 0;
+            background: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #753f10;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .category-image {
+            height: 400px;
+            background: #ddd;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        .category-info {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .category-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+
+        .category-info p {
+            color: #6c898b;
+            margin-bottom: 1rem;
+        }
+
+        .view-more {
+            background: #9acf39;
+            color: white;
+            padding: 8px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .view-more:hover {
+            background: #7b613a;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 2% auto;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 1000px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        .modal-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: #2f475f;
+            text-align: center;
+        }
+
+        .images-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Updated styles for image containers */
+        .image-container {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .image-container:hover {
+            transform: translateY(-3px);
+        }
+
+        .modal-image {
+            height: 200px;
+            background: #f0f0f0;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .image-info {
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .image-info h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: #27938e;
+        }
+
+        .price {
+            color: #e74c3c;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .add-to-cart {
+            background: #bc823a;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .add-to-cart:hover {
+            background: #219a52;
+        }
+
+        /* Footer */
+        footer {
+            background: #fff;
+            color: rgb(8, 5, 5);
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #070808;
+        }
+
+        .footer-section p, .footer-section a {
+            color: #09090a;
+            text-decoration: none;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .footer-section a:hover {
+            color: #ecf0f1;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+            }
+
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                margin: 5% auto;
+                width: 95%;
+                padding: 1rem;
+            }
+
+            .images-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content h1 {
+                font-size: 1.5rem;
+            }
+
+            .hero-content p {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+#fullScreenModal {
+  display: none; 
+  position: fixed; 
+  z-index: 3000; 
+  left: 0;
+  top: 0; 
+  width: 100vw; 
+  height: 100vh; 
+  background-color: rgba(0,0,0,0.9);
+  justify-content: center;
+  align-items: center;
+}
+
+
+#fullScreenModal .close {
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  color: white;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 3100;
+}
+
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">Mahdi Alumunium And Funiture Shop</div>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#categories">Categories</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <!-- Hero Section -->
+<section class="hero" id="home">
+  <!-- Slide 1 -->
+  <div class="hero-slide active" style="background-image:url('images/King Size Wooden Bed.png')">
+    <div class="hero-content">
+      <!-- your content… -->
+    </div>
+  </div>
+  <!-- Slide 2 -->
+  <div class="hero-slide" style="background-image:url('images/Sofa img.jpeg')">
+    <div class="hero-content">
+      <!-- slide 2 content… -->
+    </div>
+  </div>
+  <!-- Slide 3 -->
+  <div class="hero-slide" style="background-image:url('images/sofa-cum-bed.png')">
+    <div class="hero-content">
+      <!-- slide 3 content… -->
+    </div>
+  </div>
+
+  <!-- Navigation Dots -->
+  <div class="hero-nav">
+    <div class="hero-dot active" data-slide="0"></div>
+    <div class="hero-dot"       data-slide="1"></div>
+    <div class="hero-dot"       data-slide="2"></div>
+  </div>
+</section>
+
+    
+
+    <!-- Categories Section -->
+    <section class="categories" id="categories">
+        <div class="container">
+            <h2 class="section-title">Our Furniture Categories</h2>
+            <div class="categories-grid">
+                <!-- bed Category -->
+                <div class="category-card" data-category="bed">
+                    <div class="category-image" style="background-image: url('images/King Size Wooden Bed.png')">
+                        
+                    </div>
+                    <div class="category-info">
+                        <h3>Bed</h3>
+                        <p>Luxury sofas for your living room comfort</p>
+                        <button class="view-more">View Collection</button>
+                    </div>
+                </div>
+               
+
+                <!-- Sofa Category -->
+                <div class="category-card" data-category="sofa">
+                    <div class="category-image" style="background-image: url('images/Sofa img.jpeg')">
+                        
+                    </div>
+                    <div class="category-info">
+                        <h3>Sofas</h3>
+                        <p>Luxury sofas for your living room comfort</p>
+                        <button class="view-more">View Collection</button>
+                    </div>
+                </div>
+
+                <!-- Wardrobe Category -->
+                <div class="category-card" data-category="wardrobe">
+                    <div class="category-image" style="background-image: url('images/Almari.png')">
+                        
+                    </div>
+                    <div class="category-info">
+                        <h3>Wardrobes</h3>
+                        <p>Spacious wardrobes for organized storage</p>
+                        <button class="view-more">View Collection</button>
+                    </div>
+                </div>
+
+                <!-- Table Category -->
+                <div class="category-card" data-category="table">
+                    <div class="category-image" style="background-image: url('images/dining Image.png')">
+
+                    </div>
+                    <div class="category-info">
+                        <h3>Tables</h3>
+                        <p>Elegant dining and coffee tables</p>
+                        <button class="view-more">View Collection</button>
+                    </div>
+                </div>
+
+                <!-- TV Cabinet Category -->
+                <div class="category-card" data-category="Singardan">
+                    <div class="category-image" style="background-image: url('SINGARDAN/IMG_20210722_140716_791.jpg')">
+
+                    </div>
+                    <div class="category-info">
+                        <h3>Singardan</h3>
+                        <p>Modern Singardan</p>
+                        <button class="view-more">View Collection</button>
+                    </div>
+                </div>
+
+                <!-- Sofa Cum Bed Category -->
+                <div class="category-card" data-category="sofa-cum-bed">
+                    <div class="category-image" style="background-image: url('images/sofa-cum-bed.png')">
+
+                    </div>
+                    <div class="category-info">
+                        <h3>Sofa Cum Beds</h3>
+                        <p>Multi-functional furniture for space optimization</p>
+                        <button class="view-more">View Collection</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal for Image Gallery -->
+    <div id="imageModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 class="modal-title" id="modalTitle">Category Images</h2>
+            <div class="images-grid" id="imagesGrid">
+                <!-- Images will be loaded here dynamically -->
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Full Screen Image Modal -->
+<div id="fullScreenModal" class="modal">
+    <span class="close" id="fullScreenClose">&times;</span>
+    <img class="modal-content" id="fullScreenImg" alt="Full Screen Image" style="max-width: 90vw; max-height: 90vh; margin: auto; display: block; border-radius: 10px;" />
+</div>
+
+
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3>About Mahdi Furniture</h3>
+                    <p>We provide high-quality furniture for your home with modern designs and affordable prices.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <a href="#home">Home</a>
+                    <a href="#categories">Categories</a>
+                    <a href="#about">About</a>
+                    <a href="#contact">Contact</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <p></p>
+                    <p>Phone: 7388219098</p>
+                    <p></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // FIXED: Complete furniture data with all categories
+        const furnitureData = {
+            bed: {
+                title: 'Bed Collection',
+                images: [
+                    { url: 'Bed Album/IMG-20240510-WA0042.jpg', name: 'King Size Wooden Bed', price: '' },
+                    { url: 'Bed Album/IMG-20250130-WA0001.jpg', name: 'Queen Size Platform Bed', price: '' },
+                    { url: 'Bed Album/IMG-20240510-WA0041.jpg', name: 'Single Bed with Storage', price: '' },
+                    { url: 'Bed Album/IMG-20240510-WA0040.jpg', name: 'Double Bed Modern Design', price: '' },
+                    { url: 'Bed Album/IMG-20231115-WA0008.jpg', name: 'Luxury Upholstered Bed', price: '' },
+                    { url: 'Bed Album/IMG-20220305-WA0035.jpg', name: 'Minimalist Bed Frame', price: '' },
+                    { url: 'Bed Album/IMG-20220305-WA0026.jpg', name: 'Minimalist Bed Frame', price: '' },
+                    { url: 'Bed Album/IMG-20220305-WA0022.jpg', name: 'Minimalist Bed Frame', price: '' },
+                    { url: 'Bed Album/IMG-20220305-WA0023.jpg', name: 'Minimalist Bed Frame', price: '' },
+                    { url: 'Bed Album/IMG-20220305-WA0020.jpg', name: 'Minimalist Bed Frame', price: '' },
+                    { url: 'Bed Album/IMG-20220305-WA0019.jpg', name: 'Minimalist Bed Frame', price: '' },
+                    { url: 'Bed Album/IMG-20220305-WA0015.jpg', name: 'Minimalist Bed Frame', price: '' },
+                    { url: 'Bed Album/IMG-20220305-WA0014.jpg', name: 'Minimalist Bed Frame', price: '' },
+                    { url: 'Bed Album/IMG-20220305-WA0013.jpg', name: 'Minimalist Bed Frame', price: '' },                                                                 
+                    { url: 'Bed Album/IMG-20220305-WA0008.jpg', name: 'Minimalist Bed Frame', price: '' },
+                    { url: 'Bed Album/IMG-20220305-WA0003.jpg', name: 'Minimalist Bed Frame', price: '' },
+                    { url: 'Bed Album/IMG-20220305-WA0002.jpg', name: 'Minimalist Bed Frame', price: '' },
+                    { url: 'Bed Album/IMG-20220305-WA0000.jpg', name: 'Minimalist Bed Frame', price: '' }
+                    
+
+
+
+
+
+
+                ]
+            },
+            sofa: {
+                title: 'Sofa Collection',
+                images: [
+                    { url: 'SOFA ALBUM/20240228_130708.jpg', name: '3 Seater Leather Sofa', price: '' },
+                    { url: 'SOFA ALBUM/20240228_130727.jpg', name: 'L-Shaped Corner Sofa', price: '' },
+                    { url: 'SOFA ALBUM/20240228_130734.jpg', name: 'Recliner Sofa Set', price: '' },
+                    { url: 'SOFA ALBUM/IMG_20210722_140840_804.jpg', name: 'Fabric 2 Seater Sofa', price: '' },
+                    { url: 'SOFA ALBUM/IMG_20240211_130248_702.jpg', name: 'Fabric 2 Seater Sofa', price: '' },
+                    { url: 'SOFA ALBUM/IMG_20240211_130253_519.jpg', name: 'Fabric 2 Seater Sofa', price: '' },
+                    { url: 'SOFA ALBUM/IMG_20240211_130240_470.jpg', name: 'Chesterfield Sofa', price: '' }
+                ]
+            },
+            wardrobe: {
+                title: 'Wardrobe Collection',
+                images: [
+                    { url: 'ALMIRA/20250320_160852.jpg', name: '4 Door Sliding Wardrobe', price: '' },
+                    { url: 'ALMIRA/Screenshot_20250320_114759_Gallery.jpg', name: 'Corner Wardrobe Unit', price: '' }
+                ]
+            },
+            table: {
+                title: 'Table Collection',
+                images: [
+                    { url: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=300', name: 'Dining Table 6 Seater', price: '' },
+                    { url: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=300', name: 'Coffee Table Glass Top', price: '' },
+                    { url: 'https://images.unsplash.com/photo-1540574163026-643ea20ade25?w=300', name: 'Study Table with Drawers', price: '' },
+                    { url: 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=300', name: 'Round Dining Table', price: '' },
+                    { url: 'https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=300', name: 'Console Table', price: '' }
+                ]
+            },
+            'Singardan': {
+                title: 'TV Cabinet Collection',
+                images: [
+                    { url: 'SINGARDAN/20231111_010239.jpg', name: 'Modern TV Unit 55"', price: '' },
+                    { url: 'SINGARDAN/20240228_111519.jpg', name: 'Wall Mounted TV Cabinet', price: '' },
+                    { url: 'SINGARDAN/IMG_20210722_140716_791.jpg', name: 'Corner TV Stand', price: '' },
+                    { url: 'SINGARDAN/IMG_20211108_134025_510.jpg', name: 'Entertainment Center', price: '' },
+                    { url: 'SINGARDAN/IMG-20250826-WA0001.jpg', name: 'Entertainment Center', price: '' },
+                    { url: 'SINGARDAN/Screenshot_20250424_003050_WhatsApp.jpg', name: 'Entertainment Center', price: '' },
+                    { url: 'SINGARDAN/Screenshot_20250424_003054_WhatsApp.jpg', name: 'Entertainment Center', price: '' },
+                    { url: 'SINGARDAN/IMG_20211108_160834_454.jpg', name: 'Floating TV Console', price: '' }
+                ]
+            },
+            'sofa-cum-bed': {
+                title: 'Sofa Cum Bed Collection',
+                images: [
+                    { url: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=300', name: 'Convertible Sofa Bed', price: '' },
+                    { url: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=300', name: 'Pull-out Sofa Bed', price: '' },
+                    { url: 'https://images.unsplash.com/photo-1540574163026-643ea20ade25?w=300', name: 'Futon Sofa Bed', price: '' },
+                    { url: 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=300', name: 'Sleeper Sofa', price: '' },
+                    { url: 'https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=300', name: 'Daybed Sofa', price: '' }
+                ]
+            }
+        };
+
+        // FIXED: Get modal elements properly
+        const modal = document.getElementById('imageModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const imagesGrid = document.getElementById('imagesGrid');
+        const closeModal = document.getElementsByClassName('close')[0];
+
+        document.addEventListener('DOMContentLoaded', () => {
+  let currentSlide = 0;
+  const slides = document.querySelectorAll('.hero-slide');
+  const dots   = document.querySelectorAll('.hero-dot');
+
+  function showSlide(i) {
+    slides.forEach((s,j) => s.classList.toggle('active', j===i));
+    dots  .forEach((d,j) => d.classList.toggle('active', j===i));
+  }
+
+  // Manual dot navigation
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => {
+      currentSlide = i;
+      showSlide(i);
+    });
+  });
+
+  // Auto-advance every 5 seconds
+  setInterval(() => {
+    currentSlide = (currentSlide + 1) % slides.length;
+    showSlide(currentSlide);
+  }, 5000);
+});
+
+        // FIXED: Add event listeners after DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click event listeners to category cards
+            document.querySelectorAll('.category-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const category = this.getAttribute('data-category');
+                    openModal(category);
+                });
+            });
+
+            // Close modal when clicking the close button
+            closeModal.addEventListener('click', function() {
+                modal.style.display = 'none';
+            });
+
+            // Close modal when clicking outside of it
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        });
+
+        // Slider logic
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.hero-slide');
+    const dots = document.querySelectorAll('.hero-dot');
+    function showSlide(i) {
+      slides.forEach((s,j)=>s.classList.toggle('active', j===i));
+      dots.forEach((d,j)=>d.classList.toggle('active', j===i));
+    }
+    dots.forEach((dot,i)=>dot.onclick=()=>{ currentSlide=i; showSlide(i); });
+    setInterval(()=>{ currentSlide=(currentSlide+1)%slides.length; showSlide(currentSlide); }, 5000);
+
+    // Cart logic (assumes cart[], updateCartDisplay(), showToast() exist)
+    document.addEventListener('click', e => {
+      // Hero add-to-cart
+      if (e.target.matches('.hero-add-to-cart')) {
+        const btn = e.target;
+        const item = {
+          id: btn.dataset.id,
+          name: btn.dataset.name,
+          price: btn.dataset.price,
+          image: btn.dataset.image
+        };
+        cart.push(item);
+        localStorage.setItem('furnitureCart', JSON.stringify(cart));
+        updateCartDisplay();
+        showToast(`${item.name} added to cart!`);
+        btn.textContent = '✓ Added';
+        btn.disabled = true;
+        btn.style.background = '#95a5a6';
+      }
+
+      // Category thumbnail click opens modal
+      if (e.target.closest('.hero-category')) {
+        const cat = e.target.closest('.hero-category').dataset.category;
+        openModal(cat);
+      }
+    });
+
+        // FIXED: Updated modal function with proper image handling
+        function openModal(category) {
+            const data = furnitureData[category];
+            
+            // Check if category exists
+            if (!data) {
+                console.error('Category not found:', category);
+                return;
+            }
+            
+            modalTitle.textContent = data.title;
+            
+            // Clear existing images
+            imagesGrid.innerHTML = '';
+            
+            // Add images to grid
+data.images.forEach((item, index) => {
+    const imageContainer = document.createElement('div');
+    imageContainer.className = 'image-container';
+
+    imageContainer.innerHTML = `
+        <div class="modal-image" style="background-image: url('${item.url}')">
+            <div style="background: rgba(0,0,0,0.7); color: white; padding: 5px; border-radius: 3px; font-size: 12px; display: none;">Loading...</div>
+        </div>
+        <div class="image-info">
+            <h4>${item.name}</h4>
+            <p class="price">${item.price}</p>
+            <button class="add-to-cart">Add to Cart</button>
+        </div>
+    `;
+    
+    // Full screen on image click
+    imageContainer.querySelector('.modal-image').addEventListener('click', function(e) {
+        e.stopPropagation();
+        openFullScreenImage(item.url, item.name);
+    });
+    // Add click event for product details - (optional: keep as details on card click, or make a separate button)
+
+    imagesGrid.appendChild(imageContainer);
+});
+ 
+            modal.style.display = 'block';
+        }
+
+        function showProductDetails(product) {
+            alert(`Product: ${product.name}\nPrice: ${product.price}\n\nIn a real implementation, this would show detailed product information, add to cart functionality, etc.`);
+        }
+
+        // Full screen modal elements
+const fullScreenModal = document.getElementById('fullScreenModal');
+const fullScreenImg = document.getElementById('fullScreenImg');
+const fullScreenClose = document.getElementById('fullScreenClose');
+
+// Function to open full screen modal with image src
+function openFullScreenImage(src, altText = '') {
+    fullScreenImg.src = src;
+    fullScreenImg.alt = altText;
+    fullScreenModal.style.display = 'flex';
+}
+
+// Close full screen modal
+fullScreenClose.onclick = () => {
+    fullScreenModal.style.display = 'none';
+};
+fullScreenModal.onclick = function(event) {
+    if (event.target === fullScreenModal) {
+        fullScreenModal.style.display = 'none';
+    }
+};
+
+// Add click event listeners for category images
+document.querySelectorAll('.category-image').forEach(div => {
+    div.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const bg = div.style.backgroundImage;
+        const urlMatch = bg.match(/url\(["']?([^"']*)["']?\)/);
+        if (urlMatch) {
+            openFullScreenImage(urlMatch[1], "Category Image");
+        }
+    });
+});
+
+    </script>
+</body>
